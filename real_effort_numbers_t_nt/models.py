@@ -23,6 +23,18 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_sub_rounds_stage_1 = 10
     pay_per_correct_answer = 100
+    list_attr = [
+        "correct_answers_round1",
+        "correct_answers_round2",
+        "correct_answers_round3",
+        "correct_answers_round4",
+        "correct_answers_round5",
+        "correct_answers_round6",
+        "correct_answers_round7",
+        "correct_answers_round8",
+        "correct_answers_round9",
+        "correct_answers_round10"
+    ]
     
 class Group(BaseGroup):
     pass
@@ -57,6 +69,8 @@ class Player(BasePlayer):
     #Variable auxiliar
     team = models.StringField()
     team_stage_2 = models.StringField()
+    payment_stage_1 = models.IntegerField(initial=0)
+    correct_answers_stage_1 = models.IntegerField(initial=0)
 
 
     #Variables de restas etapa 1
@@ -78,7 +92,9 @@ class Player(BasePlayer):
     correct_answers_round9 = models.IntegerField(initial=0)
     correct_answers_round10 = models.IntegerField(initial=0) 
 
-
+    def other_player(self):  #Obtener el otro jugador del grupo
+        # get_others_in_group() = [Player2]
+        return self.get_others_in_group()[0]   ## Grupos de dos  
 
     numero_identificacion = models.IntegerField(label="Coloque su numero de identificacion", blank=True)
     aceptar_dato = models.BooleanField(

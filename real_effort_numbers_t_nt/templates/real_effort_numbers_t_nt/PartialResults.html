@@ -1,0 +1,14 @@
+{% block title %}
+    Ronda {{player.round_number}} -  Equipo {{player.team}}
+{% endblock %}
+
+
+{% block content %}
+    <p>
+        {{correct_answers_team}} respuestas correctas entre las dos personas
+        ${{combined_payoff_team}} pago para las dos personas
+    </p>
+
+    {% next_button %}
+
+{% endblock %}
