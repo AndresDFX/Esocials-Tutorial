@@ -1,0 +1,31 @@
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+<p>
+    {% if player.id_in_group == 1 and opponent_contract_decision == True %}
+        Jugador X<br>
+        El jugador Y, acepto el contrato
+
+    {% elif player.id_in_group == 1 and opponent_contract_decision ==  False %}
+        Jugador X<br>
+        El jugador Y no acepto el contrato
+
+    {% endif %}
+
+    {% if player.id_in_group == 2 and player.pay_contract == True %}
+        Jugador Y<br>
+
+        Yo jugador Y acepte el contrato y bla
+
+    {% elif player.id_in_group == 2 and player.pay_contract ==  False %}
+        Jugador Y<br>
+        No acepte el contrato por lo tanto bla bla
+
+    {% endif %}
+
+
+</p>
+{% next_button %}
+{% endblock %}

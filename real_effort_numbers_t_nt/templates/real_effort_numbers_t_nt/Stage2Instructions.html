@@ -1,0 +1,31 @@
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+
+<p> La matriz de pagos es: </p>
+<p align="center"><img src="{% static 'images/ganancias_etapa2.png' %}" style="width: 100%"> </p>
+
+<p>
+    {% if player.id_in_group == 1 %}
+        Jugador X
+        A usted se le ha asignado el rol del jugador X. 
+        Le hemos transferido a usted una primera cuota de $8,000, 
+        que vienen de las ganancias del jugador Y.
+
+        ¿Usted cree que el jugador Y establecera un contrato?
+    {% else %}
+        Jugador Y
+        A usted se le ha asignado el rol del jugador Y, 
+        y estará emparejado con un jugador X quien es una persona 
+        que viene del equipo AB. A esa persona le hemos transferido 
+        los $8,000 de la primera cuota, con parte de sus ganancias. 
+        
+        ¿Desea establecer un contrato para el jugador X?
+    {% endif %}
+
+    {{ form.pay_contract }}
+</p>
+{% next_button %}
+{% endblock %}

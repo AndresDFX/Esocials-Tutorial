@@ -21,6 +21,7 @@ class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_t_nt'
     num_rounds = 11
     players_per_group = 2
+    minimum_substract_approach = 10 
     num_sub_rounds_stage_1 = 10
     pay_per_correct_answer = 100
     list_attr = [
@@ -71,6 +72,16 @@ class Player(BasePlayer):
     team_stage_2 = models.StringField()
     payment_stage_1 = models.IntegerField(initial=0)
     correct_answers_stage_1 = models.IntegerField(initial=0)
+
+    ##Variables etapa 2
+    pay_contract = models.BooleanField(
+        label="",
+        choices=[
+            [True, "Si"],
+            [False, "No"]
+        ],
+        widget = widgets.RadioSelect
+    )
 
 
     #Variables de restas etapa 1

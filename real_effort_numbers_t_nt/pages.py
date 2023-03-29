@@ -167,6 +167,52 @@ class CombinedResults(Page):
             "correct_answers_team": correct_answers_team
         }
 
+class Stage2Instructions(Page):
+    form_model = 'player'
+    form_fields = ["pay_contract"]
+
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        txt_y = """A usted se le ha asignado el rol del jugador Y, 
+        y estará emparejado con un jugador X quien es una persona 
+        que viene del equipo AB. A esa persona le hemos transferido 
+        los $8,000 de la primera cuota, con parte de sus ganancias."""  
+
+        txt_x = """A usted se le ha asignado el rol del jugador X. 
+        Le hemos transferido a usted una primera cuota de $8,000, 
+        que vienen de las ganancias del jugador Y."""
+
+        player = self.player
+        txt = ""
+
+        if player.id_in_group == 1:
+            txt = txt_x
+        else:
+            txt = txt_y
+
+        return {
+            "txt": txt
+        }
+
+
+class ResultsWaitPage2(WaitPage):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+
+class ResultDecision(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+    def vars_for_template(self):
+        opponent = self.player.other_player() #Traigo el oponente
+        opponent_contract_decision = opponent.pay_contract #Traigo la decision del oponente
+
+        return {
+            "opponent_contract_decision": opponent_contract_decision
+        }
 
 
 # ******************************************************************************************************************** #
@@ -174,8 +220,8 @@ class CombinedResults(Page):
 # ******************************************************************************************************************** #
 #stage_1_sequence = [Consent, Control1, Stage1Questions]
 stage_1_sequence = [SubstractNumbers, ResultsWaitPage, PartialResults, CombinedResults]
-stage_2_sequence = []
+stage_2_sequence = [Stage2Instructions, ResultsWaitPage2, ResultDecision]
 stage_3_sequence = []
 
-page_sequence = stage_1_sequence + stage_2_sequence + stage_3_sequence
+page_sequence = stage_2_sequence + stage_3_sequence
 
