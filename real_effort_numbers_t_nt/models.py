@@ -83,6 +83,17 @@ class Player(BasePlayer):
         widget = widgets.RadioSelect
     )
 
+    pay_second_quote = models.BooleanField(
+        label="",
+        choices=[
+            [True, "Si"],
+            [False, "No"]
+        ],
+        widget = widgets.RadioSelect,
+        default=True,
+        blank=True
+    )
+
 
     #Variables de restas etapa 1
     #Variables temporales para mostrar en el HTML

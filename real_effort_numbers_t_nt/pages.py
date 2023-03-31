@@ -213,6 +213,46 @@ class ResultDecision(Page):
         return {
             "opponent_contract_decision": opponent_contract_decision
         }
+    
+class SubstractNumbers2(SubstractNumbers):
+
+    timeout_seconds = 12
+    timer_text = "Tiempo restante para completar la etapa: "
+
+
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+    
+
+class SecondQuoteY(Page):
+
+    form_model = "player"
+    form_fields = ["pay_second_quote"]
+
+
+    def is_displayed(self):
+        if self.player.id_in_group == 2:  #Si es el jugador Y
+            return self.round_number == Constants.num_rounds
+        
+
+    def vars_for_template(self):
+        opponent = self.player.other_player()
+        correct_answers_2_opponent = opponent.correct_answers_actual_round 
+        contract_decision = self.player.pay_contract
+    
+        return {
+            "contract_decision": contract_decision,
+            "correct_answers_2_opponent": correct_answers_2_opponent
+        }
+
+
+
+
+    
+
+
+    
+
 
 
 # ******************************************************************************************************************** #
@@ -220,7 +260,7 @@ class ResultDecision(Page):
 # ******************************************************************************************************************** #
 #stage_1_sequence = [Consent, Control1, Stage1Questions]
 stage_1_sequence = [SubstractNumbers, ResultsWaitPage, PartialResults, CombinedResults]
-stage_2_sequence = [Stage2Instructions, ResultsWaitPage2, ResultDecision]
+stage_2_sequence = [Stage2Instructions, ResultsWaitPage2, ResultDecision, SubstractNumbers2, ResultsWaitPage2, SecondQuoteY]
 stage_3_sequence = []
 
 page_sequence = stage_2_sequence + stage_3_sequence

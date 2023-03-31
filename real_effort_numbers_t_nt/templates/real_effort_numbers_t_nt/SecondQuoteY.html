@@ -1,0 +1,25 @@
+{% block title%}
+
+{% endblock %}
+
+
+{% block content %}
+    El jugador X realizo {{correct_answers_2_opponent}} correctas por lo tanto su pago es:
+    <!--Sin contrato Y-->
+    {% if contract_decision == False %}
+        {% if correct_answers_2_opponent  >= Constants.minimum_substract_approach %}
+            usted ha ganado $30.000
+        {% else %}
+            usted no ha ganado $30.000
+        {% endif %}
+
+        ¿Desea pagarle la segunda cuota al jugador X?
+        {% formfield player.pay_second_quote %}
+
+    <!--Con contrato Y-->
+    {% else %}
+    A continuacion vamos a transferirle al jugador X los $7.000 de la segunda cuota
+    {% endif %}
+
+    {% next_button %}
+{% endblock%}
