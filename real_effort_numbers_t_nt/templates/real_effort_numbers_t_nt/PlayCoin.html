@@ -1,0 +1,58 @@
+{% extends "real_effort_numbers_t_nt/base/global.html" %} 
+
+{% block title %}
+    Juego de monedita
+{% endblock %}
+
+{% block styles %}
+<link href="{% static 'css/coin.css'%}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+
+En este juego le daremos $5000 para que apuest, si sale azul lo que apueste lo perdera y si sale rojo se duplicara. <br/>
+
+<div id="coin">
+    <div class="side-a"></div>
+    <div class="side-b"></div>
+</div>
+
+{% formfields %}
+{% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    var yaSeLanzo=false, flipResult;
+
+    $(document).ready(function ($) {
+        flipResult = Math.random();
+        $('.otree-btn-next').hide(); //Ocultar el boton next de otree
+
+
+        $('#coin').on('click', function () {
+            if(yaSeLanzo == false){
+                yaSeLanzo = true;
+                setTimeout(function () {
+                    if (flipResult <= 0.5) { //S
+                        $('#coin').addClass('heads');
+                        console.log('Sale rojo');
+                        console.log(flipResult);
+                    } else {
+                        $('#coin').addClass('tails');
+                        console.log('Sale azul');
+                        console.log(flipResult);
+                    }
+                }, 100);
+                liveSend(flipResult); //Enviar el valor de la moneda a pages.py
+                $('.otree-btn-next').show(); //Mostrar el boton next de otree
+            }
+
+        });
+    });
+</script>
+
+{% endblock %}

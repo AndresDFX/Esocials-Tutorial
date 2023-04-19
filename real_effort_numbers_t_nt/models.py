@@ -24,6 +24,7 @@ class Constants(BaseConstants):
     minimum_substract_approach = 10 
     num_sub_rounds_stage_1 = 10
     pay_per_correct_answer = 100
+    max_bet_stage_3 = 5000
     list_attr = [
         "correct_answers_round1",
         "correct_answers_round2",
@@ -72,6 +73,18 @@ class Player(BasePlayer):
     team_stage_2 = models.StringField()
     payment_stage_1 = models.IntegerField(initial=0)
     correct_answers_stage_1 = models.IntegerField(initial=0)
+    payment_stage_3 = models.IntegerField(initial=0)
+    payment = models.IntegerField(initial=0)
+
+
+    #Variables etapa 3
+    amount_inversion = models.IntegerField(
+        label="¿Cuanto desea apostar?",
+        min=0,
+        max=Constants.max_bet_stage_3,
+        default=0
+    )
+    flip_value = models.FloatField(initial=0.0)
 
     ##Variables etapa 2
     pay_contract = models.BooleanField(

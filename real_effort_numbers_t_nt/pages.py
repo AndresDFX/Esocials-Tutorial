@@ -246,13 +246,50 @@ class SecondQuoteY(Page):
         }
 
 
+class PlayCoin(Page):
+
+    form_model = 'player'
+    form_fields = ["amount_inversion"]
 
 
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
     
 
+    def live_method(self, data):
+        player = self
+        player.flip_value = float(data)
 
+
+class ResultsPlayCoin(Page):
+
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
     
 
+    def vars_for_template(self):
+        player = self.player
+        flip_value = player.flip_value
+        amount_inversion = player.amount_inversion
+        color = ""
+        payment_stage_3 = 0
+        amount_remaining = Constants.max_bet_stage_3 - amount_inversion
+
+        if (flip_value <= 0.5):
+            color = "rojo"
+            payment_stage_3 = amount_remaining + amount_inversion*2
+        else:
+            color = "azul"
+            payment_stage_3 = amount_remaining
+        
+        player.payment_stage_3 = payment_stage_3
+        player.payment = player.payment_stage_1 + payment_stage_3 ##Guardar el pago
+
+        return {
+            'amount_inversion': amount_inversion,
+            'color': color,
+            'payment_stage_3': payment_stage_3
+        }
 
 
 # ******************************************************************************************************************** #
@@ -261,7 +298,7 @@ class SecondQuoteY(Page):
 #stage_1_sequence = [Consent, Control1, Stage1Questions]
 stage_1_sequence = [SubstractNumbers, ResultsWaitPage, PartialResults, CombinedResults]
 stage_2_sequence = [Stage2Instructions, ResultsWaitPage2, ResultDecision, SubstractNumbers2, ResultsWaitPage2, SecondQuoteY]
-stage_3_sequence = []
+stage_3_sequence = [PlayCoin, ResultsPlayCoin]
 
-page_sequence = stage_2_sequence + stage_3_sequence
+page_sequence = stage_3_sequence
 
